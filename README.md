@@ -5,7 +5,7 @@ Several fundamental requirements for regexp’s were derived after observing sev
 
 |#| Requirement  | Regex finder  |
 |---|---|---|
-|1|  Regexp should avoid using ^ (alternative: \A) and $ (alternative: \Z) symbols, which are metacharacters for start and end of a string. It is possible to bypass regex by inserting any symbol in front or after regexp. | `grep -P '[^\[\\](\^|\\A|\$|\\Z)'`  |
+|1|  Regexp should avoid using ^ (alternative: \A) and $ (alternative: \Z) symbols, which are metacharacters for start and end of a string. It is possible to bypass regex by inserting any symbol in front or after regexp. | `grep -P '[^\[\\]*(\^|\\A|\$|\\Z)'`  |
 |2| Regexp should be case-insensitive. It is possible to bypass regex using upper or lower cases in words. [Modsecurity transformation commands](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#cmdLine) (which are applied on string before regex pattern is applied) can also be included in tests to cover more regexps.  |  `grep -vP '\(\?i' | grep -v "t:lowercase" | grep -v "t:cmdLine"` |
 |3| Regexp should avoid using dot “.” symbol, which means every symbol except newline (\n). It is possible to bypass regex using [newline injection](https://www.htbridge.com/blog/bypassing-bitrix-web-application-firewall-via-tiny-regexp-error.html).  |  `grep -P '[^\\]\.\+[^*]'` |
 |4|  Regexp should not be vulnerable to ReDoS. [OWASP ReDoS article](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) | 1. Find various evil patterns. Example: `grep -P '\((.*?)\)[^\\]?[\+\*]'` 2. Generate evil string using e.g. “SDL Regex Fuzzer” |
