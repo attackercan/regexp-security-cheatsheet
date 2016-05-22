@@ -1,33 +1,33 @@
-<html>
-<head>
-<style>
-<!--
-<pre> tags wrapping 
-http://www.longren.io/wrapping-text-inside-pre-tags/
--->
-
-pre {
- white-space: pre-wrap;       /* css-3 */
- white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
- white-space: -pre-wrap;      /* Opera 4-6 */
- white-space: -o-pre-wrap;    /* Opera 7 */
- word-wrap: break-word;       /* Internet Explorer 5.5+ */
- width: 99%;
-}
-</style>
-</head>
-<body>
-
 <?php
 
-	// var_dump parameters for debug
+	#Author: Vladimir Ivanov
+	#@httpsonly
+
+	#Settings for debug (var_dump)
 ini_set('xdebug.var_display_max_depth', 5);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
+	#CLI Interface parameters
+$options = getopt("", array("file::", "regexp::", "output::"));
 
-$file = file('owasp-crs.txt');
+if(!@$options)
+	echo "RegExp security finder.\r\n\r\nUsage examples:\r\nphp script.php --regexp=\"(.*?){1,5}\"\r\nphp script.php --file=\"input.txt\"\r\nphp script.php --file=\"input.txt\" --output \"output.html\"\r\n\r\nBy default output is saved into output_FILENAME_DDMMYY_HHMMSS.html\r\n\r\n";
 
+if((!@$options['regexp'] && !@$options['file']) || ((@$options['regexp'] && @$options['file'])))
+	die(">>> ERROR! Input --regexp OR --file!\r\n");
+
+if(@$options['file'])
+	$file = file($options['file']);
+else
+	$file = array($options['regexp']);
+
+if($output_filename = !@$options['output'])
+	$output_filename = "output_".preg_replace("/[^a-z0-9]/i", "_", @$options['file'])."_".date("dmy_His").".html";
+
+
+
+	#Available Rules ( https://github.com/attackercan/regexp-fundamental-requirements )
 $rules = array(
 	'Rule 1 (Regexp should avoid using metacharacters for start and end of a string. It is possible to bypass regex by inserting any symbol in front or after regexp)'
 		=> '/(?:^|[^\[\\\])(\^|\\\A|\$|\\\Z)/',
@@ -35,7 +35,7 @@ $rules = array(
 	'Rule 2'
 		=> '//',
 		
-	'Rule 3 (Regexp should avoid using dot “.” symbol, which means every symbol except newline (\n). It is possible to bypass regex using newline injection).'
+	'Rule 3 (Regexp should avoid using dot "." symbol, which means every symbol except newline (\n). It is possible to bypass regex using newline injection).'
 		=> '/[^\\\](\.\+)/',
 		
 	'Rule 4 (Regexp is possibly vulnerable to ReDoS).'
@@ -47,7 +47,7 @@ $rules = array(
 	'Rule 6'
 		=> '//',
 		
-	'Rule 7 (Regexp should likely use plus “+” metacharacter in places where it is necessary, as it means “one or more”. Alternative metacharacter star “*”, which means “zero or more” is generally preferred.)'
+	'Rule 7 (Regexp should likely use plus + metacharacter in places where it is necessary, as it means "one or more". Alternative metacharacter star "*", which means "zero or more" is generally preferred.)'
 		=> '/(\\\[a-z][+])/i',
 		
 	'Rule 8 (Usage of wildcards should be reasonable. \r\n characters can often be bypassed by either substitution, or by using newline alternative \v, \f and others).'
@@ -68,23 +68,27 @@ $rules = array(
 init();
 
 function init() {
+	$HTMLoutput = headHTML();
+
 	foreach($GLOBALS['file'] as $string_id => $string) {
 		$string = trim($string);
-		$string = str_replace('<', '&lt;', $string);	// fix for good HTML output
-		
+		$string = str_replace('<', '&lt;', $string);	// fix for beautiful HTML output
+	
 		$results_for_string = applyAllRules($string);
-		// var_dump($results_for_string);
-		// die();
 
 		foreach($results_for_string as $rule_name => $matchArrayData) {
 			
 			if($highlighedString = drawMistakes($string, $matchArrayData)) {
 				
-				echo "Line ".$string_id." => <pre>".$highlighedString."</pre>".$rule_name."<hr>\r\n\r\n";
+				$HTMLoutput .= "Line ".$string_id." => <pre>".$highlighedString."</pre>".$rule_name."<hr>\r\n\r\n";
 				
 			}
 		}
 	}
+
+	$HTMLoutput .= "</body></html>";
+	file_put_contents($GLOBALS['output_filename'], $HTMLoutput);
+	echo "Done!\r\nOutput file is saved into:\r\n".str_replace(basename(__FILE__), $GLOBALS['output_filename'], __FILE__)."\r\n";
 }
 
 function applyAllRules($string) {
@@ -127,7 +131,7 @@ function drawOneMistake($string, $one_match) {
 	$offset = $one_match[1];
 	$length = strlen($one_match[0]);
 	
-	if(($real_offset = $offset-$length+1) < $offset) $real_offset = $offset;		// omg, maths!
+	if(($real_offset = $offset-$length+1) < $offset) $real_offset = $offset;	// omg, maths!
 	
 	$before	= substr($string, 0, $real_offset);
 	$match	= substr($string, $offset, $length);
@@ -138,7 +142,30 @@ function drawOneMistake($string, $one_match) {
 	return $res;
 }
 
-?>
+function headHTML() {
 
-</body>
-</html>
+	return "
+		<html>
+		<head>
+		<style>
+		<!--
+		<pre> tags wrapping 
+		http://www.longren.io/wrapping-text-inside-pre-tags/
+		-->
+
+		pre {
+		 white-space: pre-wrap;       /* css-3 */
+		 white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+		 white-space: -pre-wrap;      /* Opera 4-6 */
+		 white-space: -o-pre-wrap;    /* Opera 7 */
+		 word-wrap: break-word;       /* Internet Explorer 5.5+ */
+		 width: 99%;
+		}
+		</style>
+		</head>
+		<body>
+		";
+
+}
+
+?>
