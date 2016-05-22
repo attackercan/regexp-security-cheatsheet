@@ -1,4 +1,4 @@
-CRS rules were collected from SpiderLabs repository in the following way:  
+CRS rules were collected from [SpiderLabs repository](https://github.com/SpiderLabs/owasp-modsecurity-crs/) in the following way:  
 `cat *xss* | grep -P 'SecRule .*$' > CRS3dev-xss.txt`
 
 PHP Usage:  
