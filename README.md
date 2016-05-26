@@ -14,7 +14,7 @@ Several fundamental requirements for regexp’s were derived after observing sev
 |7|  Regexp should only use plus “+” metacharacter in places where it is necessary, as it means “one or more”. Alternative metacharacter star “*”, which means “zero or more” is generally preferred. |  `a'\s+\d` | `a'5`
 |8| Usage of wildcards should be reasonable. \r\n characters can often be bypassed by either substitution, or by using newline alternative \v, \f and others. Wildcard \b has different meanings while using wildcard in square brackets (has meaning “backspace”) and in plain regex (has meaning “word boundary”), as classified in [RegexLib article](http://regexlib.com/CheatSheet.aspx).  | `a[^\n]*$`  | `a\r`
 |9| Regexp should be applied to right scope of inputs: Cookies names and values, Argument names and values, Header names and values, Files argument names and content. Modsecurity: `grep -oP 'SecRule(.*?)"' -n` Other WAFs: manual observation. |  Argument values  | Cookie names and values
-|10| Regular expression writers should be careful while using only whitespace character (%20) as separators. Rule can be bypassed e.g. with newline character, tabulation, by skipping whitespace, or alternatives.  |  `a\s(not |and)\sb` | `a not b`
+|10| Regular expression writers should be careful while using only whitespace character (%20) as separators. Rule can be bypassed e.g. with newline character, tabulation, by skipping whitespace, or alternatives.  |  `a\s(not[whitespace]|and)\sb` | `a not b`
 
 ##### Experimental rules (probably to be removed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
