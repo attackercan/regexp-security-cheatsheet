@@ -1,6 +1,6 @@
 # regexp-fundamental-requirements
 
-Several fundamental requirements for regexp’s were derived after observing several WAF bypass write-ups and studying tricky conditions of metacharacters. They were classified and put in the table. In the following table, middle column contain description of discovered requirement in detail; whereas right column gives a regular expression-based example, which is designed to find discovered requirement in set of rules, tuned to have minimum false positive rate.
+Several fundamental requirements for regexp’s were derived after observing several WAF bypass write-ups and studying tricky conditions of metacharacters. They were classified and put in the table. In the following table, second column contain description of discovered requirement in detail; third column gives a regular expression-based example; last column introduces bypass example of such regexp.
 
 
 |#| Requirement  | Vulnerable regex example  | Bypass example |
