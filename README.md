@@ -2,7 +2,7 @@
 
 Several fundamental requirements for regexp’s were derived after observing several WAF bypass write-ups and studying tricky conditions of metacharacters. They were classified and put in the table. In the following table, second column contain description of discovered requirement in detail; third column gives a regular expression-based example; last column introduces bypass example of such regexp.
 
-
+### High severity issues:
 |#| Requirement  | Vulnerable regex example  | Bypass example |
 |---|---|---|---|
 |1|  Regexp should avoid using `^` (alternative: `\A`) and `$` (alternative: `\Z`) symbols, which are metacharacters for start and end of a string. It is possible to bypass regex by inserting any symbol in front or after regexp. | `(^a|a$)`  |   `%20a%20`
@@ -19,6 +19,13 @@ Several fundamental requirements for regexp’s were derived after observing sev
 |12| Special cases: whitespaces before operators |  `(a |b)c` | `ac`
 |13| Usage of right syntax in POSIX character classes |  `a[digit]b` | `aab`
 |14| Opposite usage of brackets [], () and {} | `[SYSTEM|PUBLIC]` or `(a-z123)` | `SYSTEM` or `abcdef`
+
+### Medium severity issues (non-expected behaviour: manual observation needed):
+|#| Requirement  | Vulnerable regex example  | Bypass example |
+|---|---|---|---|
+|15| Check backlinks |  `(\d{1})=\1` | `1!=2`
+|16| Usage of comments | `a(?#some comment about wildcards:\)(\w*)b` | `afffb`
+|17| Usage of metacharacters in [] | `[\w+]` | `+`
 
 ##### Experimental rules (probably to be removed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
