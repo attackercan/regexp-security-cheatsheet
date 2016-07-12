@@ -23,9 +23,10 @@ Several fundamental requirements for regexp’s were derived after observing sev
 ### Medium severity issues (non-expected behaviour: manual observation needed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
 |---|---|---|---|
-|15| Check backlinks |  `(\d{1})=\1` | `1!=2`
-|16| Usage of comments | `a(?#some comment about wildcards:\)(\w*)b` | `afffb`
-|17| Usage of metacharacters in [] | `[\w+]` | `+`
+|15| Check backlinks, and bear in mind that [`\11` can be backlink -OR- 0x09](http://php.net/manual/en/regexp.reference.escape.php) |  `(\d{1})=\1` | `1!=2`
+|16| Unsafe usage of comments | `a(?#some comment about wildcards:\)(\w*)b` | `afffb`
+|17| Excessive usage of metacharacters in [] | `[\w+]` | `+`
+|18| Rarely used [wildcards](http://php.net/manual/en/regexp.reference.escape.php).  | `\a = 0x07; \e = 0x1B; \R = \r|\n|\r\n; \xXX = 0xXX; \ddd = 0oddd; \cX, \x{XXXX}` | ``
 
 ##### Experimental rules (probably to be removed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
