@@ -33,6 +33,6 @@ Several fundamental requirements for regexp’s were derived after observing sev
 ##### Experimental rules (probably to be removed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
 |---|---|---|---|
-|11| Greediness of regular expressions should be considered. Highlight of this topic is well done in [Chapter 9 of Jan Goyvaert’s tutorial](https://www.princeton.edu/~mlovett/reference/Regular-Expressions.pdf). While greediness itself does not create bypasses, bad implementation of regexp Greediness can raise False Positive rate. This can cause excessive log-file flooding, forcing vulnerable rule or even whole WAF to be switched off.  |   |
-|12| Best Practice from [slides of Ivan Novikov](http://www.slideshare.net/d0znpp/lie-tomephd2013): Modsecurity should avoid using t:base64Decode function (t:base64DecodeExt instead).  |  `t:base64Decode` | `detected=bypassed` 
+|X| Greediness of regular expressions should be considered. Highlight of this topic is well done in [Chapter 9 of Jan Goyvaert’s tutorial](https://www.princeton.edu/~mlovett/reference/Regular-Expressions.pdf). While greediness itself does not create bypasses, bad implementation of regexp Greediness can raise False Positive rate. This can cause excessive log-file flooding, forcing vulnerable rule or even whole WAF to be switched off.  |   |
+|X| Best Practice from [slides of Ivan Novikov](http://www.slideshare.net/d0znpp/lie-tomephd2013): Modsecurity should avoid using t:base64Decode function (t:base64DecodeExt instead).  |  `t:base64Decode` | `detected=bypassed` 
 
