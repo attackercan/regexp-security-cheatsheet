@@ -1,6 +1,6 @@
-# Regex Security Cheatsheet: Pitfalls to avoid
+# Regex Security Cheatsheet
 
-Initial research was done to find "weak places" in regular expressions of Web Application Firewalls (WAFs).
+Initial research was done to find "weak places" in regular expressions of Web Application Firewalls (WAFs).  
 Feel free to contribute.
 
 ### High severity issues:
