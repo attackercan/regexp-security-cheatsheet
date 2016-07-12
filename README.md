@@ -18,7 +18,7 @@ Feel free to contribute.
 |10| Regular expression writers should be careful while using only whitespace character (`%20`) as separators. Rule can be bypassed e.g. with newline character, tabulation, by skipping whitespace, or alternatives.  |  `a\s(not[whitespace]|and)\sb` | `a not b`
 |11| Nonstandard combinations of operators  |  `a||b` | `any_string`
 |12| Special cases: whitespaces before operators |  `(a |b)c` | `ac`
-|13| Usage of right syntax in POSIX character classes |  `a[digit]b` | `aab`
+|13| Usage of wrong syntax in POSIX character classes |  `a[digit]b` | `aab`
 |14| Opposite usage of brackets [], () and {} | `[SYSTEM|PUBLIC]` or `(a-z123)` | `SYSTEM` or `abcdef`
 
 ### Medium severity issues (non-expected behaviour: manual observation needed):
