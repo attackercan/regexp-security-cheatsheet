@@ -1,6 +1,7 @@
-# regexp-fundamental-requirements
+# Regex Security Cheatsheet: Pitfalls to avoid
 
-Several fundamental requirements for regexp’s were derived after observing several WAF bypass write-ups and studying tricky conditions of metacharacters. They were classified and put in the table. In the following table, second column contain description of discovered requirement in detail; third column gives a regular expression-based example; last column introduces bypass example of such regexp.
+Initial research was done to find "weak places" in regular expressions of Web Application Firewalls (WAFs).
+Feel free to contribute.
 
 ### High severity issues:
 |#| Requirement  | Vulnerable regex example  | Bypass example |
@@ -36,3 +37,5 @@ Several fundamental requirements for regexp’s were derived after observing sev
 |X| Greediness of regular expressions should be considered. Highlight of this topic is well done in [Chapter 9 of Jan Goyvaert’s tutorial](https://www.princeton.edu/~mlovett/reference/Regular-Expressions.pdf). While greediness itself does not create bypasses, bad implementation of regexp Greediness can raise False Positive rate. This can cause excessive log-file flooding, forcing vulnerable rule or even whole WAF to be switched off.  |   |
 |X| Best Practice from [slides of Ivan Novikov](http://www.slideshare.net/d0znpp/lie-tomephd2013): Modsecurity should avoid using t:base64Decode function (t:base64DecodeExt instead).  |  `t:base64Decode` | `detected=bypassed` 
 
+Vladimir Ivanov
+@httpsonly
