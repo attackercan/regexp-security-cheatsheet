@@ -27,9 +27,9 @@ Feel free to contribute.
 |15| Check backlinks, and bear in mind that [`\11` can be backlink -OR- 0x09](http://php.net/manual/en/regexp.reference.escape.php) |  `(\d{1})=\1` | `1!=2`
 |16| Unsafe usage of comments | `a(?#some comment about wildcards:\)(\w*)b` | `afffb`
 |17| Excessive usage of metacharacters in [] | `[\w+]` | `+`
-|18| Rarely used [wildcards](http://php.net/manual/en/regexp.reference.escape.php).  | `\a = 0x07; \e = 0x1B; \R = \r|\n|\r\n; \xXX = 0xXX; \ddd = 0oddd; \cX, \x{XXXX}, \H, \V, \G` | ``
-|19| Excessive escaping, e.g. escaping symbol which is not a wildcard | `\q` | ``
-|20| Unsafe usage of [recursion](http://php.net/manual/ru/regexp.reference.recursive.php), IF statements, etc | `(?R`, `(?(id)true|false)`, ... | ``
+|18| Rarely used [wildcards](http://php.net/manual/en/regexp.reference.escape.php).  | `\a = 0x07; \e = 0x1B; \R = \r|\n|\r\n; \xXX = 0xXX; \ddd = 0oddd; \cX, \x{XXXX}, \H, \V, \G` | ` `
+|19| Excessive escaping, e.g. escaping symbol which is not a wildcard | `\q` | ` `
+|20| Unsafe usage of [recursion](http://php.net/manual/ru/regexp.reference.recursive.php), IF statements, etc | `(?R`, `(?(id)true|false)`, ... | ` `
 
 ##### Experimental rules (probably to be removed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
