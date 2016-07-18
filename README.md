@@ -1,8 +1,8 @@
 # Regexp Security Cheatsheet
 
-Research was done to find "weak places" in regular expressions of Web Application Firewalls (WAFs).
-Repository contains SAST, which can help you to find security vulnerabilities in custom regular expressions in own projects.
-Contribution is highly welcomed.
+Research was done to find "weak places" in regular expressions of Web Application Firewalls (WAFs).  
+Repository contains SAST, which can help you to find security vulnerabilities in custom regular expressions in own projects.  
+Contribution is highly welcomed.  
 
 ### High severity issues:
 |#| Requirement  | Vulnerable regex example  | Bypass example |
