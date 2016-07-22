@@ -11,7 +11,7 @@ ini_set('xdebug.var_display_max_data', 1024);
 
 	#CLI Interface parameters
 $options = getopt("", array("file::", "regexp::", "output::"));
-$options['file']	 = $_GET['file'];
+// $options['file']	 = $_GET['file']; // debug in GUI mode
 
 if(!@$options)
 	echo "RegExp security finder.\r\n\r\nUsage examples:\r\nphp script.php --regexp=\"(.*?){1,5}\"\r\nphp script.php --file=\"input.txt\"\r\nphp script.php --file=\"input.txt\" --output \"output.html\"\r\n\r\nBy default output is saved as output_FILENAME_HHMMSS_DDMMYY.html\r\n\r\n";
@@ -56,10 +56,10 @@ $rules = array(
 	'Rule 6 (Ranges except a-zA-Za-f0-9)'
 		=> '/\[[^\]]*(?!A-Z|a-z|A-F|a-f|0-9)(\w{1}-(?:\w|\\\){1}).*?\]/',
 		
-		/*
-	'Rule 7 (Regexp should likely use plus + metacharacter in places where it is necessary, as it means "one or more". Alternative metacharacter star "*", which means "zero or more" is generally preferred.)'
-		=> '/(\\\[a-z][+])/i', // Generates lots of false positives - manual check is needed in paranoid mode
 		
+	'Rule 7 (Regexp should likely use plus + metacharacter in places where it is necessary, as it means "one or more". Alternative metacharacter star "*", which means "zero or more" is generally preferred.)'
+		=> '/((?:\\\[a-z]|\.)[+])/i', // Generates false positives - manual check is needed in paranoid mode
+		/*
 	'Rule 8 (Usage of wildcards should be reasonable. \r\n characters can often be bypassed by either substitution, or by using newline alternative \v, \f and others).'
 		=> '/(\\\a|\[[^\]]*?\\\b[^\[]*?\]|\\\t|\\\r|\\\v|\\\f|\\\n)/',  // Is partly covered by other rules - manual check is needed in paranoid mode
 		*/
@@ -77,10 +77,10 @@ $rules = array(
 		=> '/( \||\| )/',
 	
 	'Rule 13 (Usage of wrong syntax in POSIX character classes).'
-		=> '/\[.{0,5}(alnum|alpha|ascii|blank|cntrl|digit|graph|lower|print|punct|space|upper|word|xdigit).{0,5}\]/',
+		=> '/\[.{0,5}\b(alnum|alpha|ascii|blank|cntrl|digit|graph|lower|print|punct|space|upper|word|xdigit)\b.{0,5}\]/',
 	
 	'Rule 14 (Opposite usage of brackets [], () and {}).'
-		=> '//',	//TODO
+		=> '//',	// TODO in syntax analyzer
 	
 	'Rule 15 (Re-check backlinks).'
 		=> '/(\\\\\d)/',
@@ -89,7 +89,7 @@ $rules = array(
 		=> '/(\(\?\#)/',
 	
 	'Rule 17 (Excessive usage of metacharacters in []).'
-		=> '//',	//TODO
+		=> '//',	// TODO
 	
 	'Rule 18 (Rarely used wildcards - all wildcards except A,Z,b,r,n,t,wW,sS,dD,u,x).'
 		=> '/(\\\(?:B|C|E|G|H|K|L|N|P|Q|R|U|V|X|a|c|e|f|g|h|k|l|o|p|v|z))/',
@@ -98,9 +98,9 @@ $rules = array(
 		=> '/(\\\(?:F|I|J|M|O|T|Y|i|j|m|q|y))/',
 	
 	'Rule 20 (Unsafe usage of recursion or IF statements).'
-		=> '//',	//TODO
+		=> '//',	// TODO in syntax analyzer
 
-	'Rule 21 (Wrong usage of ranges).'
+	'Rule 21 (Unsafe usage of ranges (e.g. \0-9)).'
 		=> '/\[.{0,10}(\\\\w{1}-\w{1}).{0,10}\]/',
 
 	/*
