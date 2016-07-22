@@ -14,7 +14,7 @@ Contribution is highly welcomed.
 |5| Number of repetitions of set or group `{}` should be carefully used, as one can bypass such limitation by lowering or increasing specified numbers.  |  `a{1,5}` | `aaaaaa (6 times)`
 |6| Nonstandard ranges (almost everything except a-z, 0-9, a-f, etc)  |  ``[A-z] = [a-zA-Z] + [\]^_` `` | ``aaa[\]^_`aaa`` 
 |7| Regexp should only use plus “`+`” metacharacter in places where it is necessary, as it means “one or more”. Alternative metacharacter star “`*`”, which means “zero or more” is generally preferred. |  `a'\s+\d` | `a'5`
-|8| Usage of wildcards should be reasonable. `\r\n` characters can often be bypassed by either substitution, or by using newline alternative `\v`, `\f` and others. Wildcard `\b` has different meanings while using wildcard in square brackets (has meaning “backspace”) and in plain regex (has meaning “word boundary”), as classified in [RegexLib article](http://regexlib.com/CheatSheet.aspx).  | `a[^\n]*$`  | `a\n`? `a\r`?
+|8| Usage of newline wildcards should be reasonable. `\r\n` characters can often be bypassed by either substitution, or by using newline alternative `\v`, `\f` and others. Wildcard `\b` has different meanings while using it in square brackets (“backspace”) and in plain regex (“word boundary”) - [RegexLib](http://regexlib.com/CheatSheet.aspx) | `a[^\n]*$`  | `a\n`? `a\r`?
 |9| Regexp should be applied to right scope of inputs: `Cookies names and values`, `Argument names and values`, `Header names and values`, `Files argument names and content`. Modsecurity: `grep -oP 'SecRule(.*?)"' -n` Other WAFs: manual observation. |  Argument values  | Cookie names and values
 |10| Regular expression writers should be careful while using only whitespace character (`%20`) as separators. Rule can be bypassed e.g. with newline character, tabulation, by skipping whitespace, or alternatives.  |  `a\s(not[whitespace]|and)\sb` | `a not b`
 |11| Nonstandard combinations of operators  |  `a||b` | `any_string`
@@ -28,7 +28,7 @@ Contribution is highly welcomed.
 |15| Check backlinks, and bear in mind that [`\11` can be backlink -OR- 0x09](http://php.net/manual/en/regexp.reference.escape.php) |  `(\d{1})=\1` | `1!=2`
 |16| Unsafe usage of comments | `a(?#some comment about wildcards:\)(\w*)b` | `afffb`
 |17| Excessive usage of metacharacters in [] | `[\w+]` | ` `
-|18| Rarely used [wildcards](http://php.net/manual/en/regexp.reference.escape.php). All wildcards except A,Z,b,r,n,t,wW,sS,dD,u,x  | `\a = 0x07; \e = 0x1B; \R = \r|\n|\r\n; \xXX = 0xXX; \ddd = 0oddd; \cX, \x{XXXX}, \H, \V, \G` | ` `
+|18| Rarely used [wildcards](http://php.net/manual/en/regexp.reference.escape.php). All wildcards except popular: A,Z,b,r,n,t,wW,sS,dD,u,x  | `\a = 0x07; \e = 0x1B; \R = \r|\n|\r\n; \xXX = 0xXX; \ddd = 0oddd; \cX, \x{XXXX}, \H, \V, \G` | ` `
 |19| Excessive escaping, e.g. escaping symbol which is not a wildcard | `\q` | ` `
 |20| Unsafe usage of [recursion](http://php.net/manual/ru/regexp.reference.recursive.php), IF statements, etc | `(?R`, `(?(id)true|false)`, ... | ` `
 |21| Unsafe usage of ranges | `[\0-9]` = `\0\1\2\3...$%&'...789` | ` `
