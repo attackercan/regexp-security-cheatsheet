@@ -31,7 +31,7 @@ Contribution is highly welcomed.
 |18| Rarely used [wildcards](http://php.net/manual/en/regexp.reference.escape.php). All wildcards except A,Z,b,r,n,t,wW,sS,dD,u,x  | `\a = 0x07; \e = 0x1B; \R = \r|\n|\r\n; \xXX = 0xXX; \ddd = 0oddd; \cX, \x{XXXX}, \H, \V, \G` | ` `
 |19| Excessive escaping, e.g. escaping symbol which is not a wildcard | `\q` | ` `
 |20| Unsafe usage of [recursion](http://php.net/manual/ru/regexp.reference.recursive.php), IF statements, etc | `(?R`, `(?(id)true|false)`, ... | ` `
-|21| Unsafe usage of ranges | `[\0-9]` | `12345678`
+|21| Unsafe usage of ranges | `[\0-9]` = `\0\1\2\3..$%&'...789` | ``
 
 ##### Experimental rules (probably to be removed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
