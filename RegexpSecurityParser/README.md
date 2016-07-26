@@ -1,6 +1,6 @@
 OWASP CRS rules were collected from [SpiderLabs repository](https://github.com/SpiderLabs/owasp-modsecurity-crs/) in the following way:  
 `cat *xss* | grep -P 'SecRule .*$' > CRS3dev-xss.txt`  
-and [COMODO WAF](https://waf.comodo.com/) rules:
+and [COMODO WAF](https://waf.comodo.com/) rules:  
 `cat * | grep -P 'SecRule.*\/\*(.*)$' > COMODO.txt`  
 ***
 
