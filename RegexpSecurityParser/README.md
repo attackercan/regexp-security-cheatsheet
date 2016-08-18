@@ -10,3 +10,9 @@ PHP Usage:
 
 Output example:  
 ![Output example](http://oi67.tinypic.com/15344k4.jpg)
+
+
+CVE generator (source code search example):
+```bash
+grep -iorP "preg_\w+\s*\((\s*['\"](.*?)['\"])," * > regexp.txt && php index.php --file="./regexp.txt"
+```
