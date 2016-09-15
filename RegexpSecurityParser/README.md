@@ -14,5 +14,5 @@ Output example:
 
 CVE generator (source code search example):
 ```bash
-grep -iorP "preg_\w+\s*\((\s*['\"](.*?)['\"])," * > regexp.txt && php index.php --file="./regexp.txt"
+grep -iorP "reg_\w+\s*\((\s*['\"](.*?)['\"])," * > regexp.txt && php index.php --file="./regexp.txt"
 ```
