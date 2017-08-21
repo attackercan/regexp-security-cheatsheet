@@ -7,7 +7,7 @@ Contribution is highly welcomed.
 ### High severity issues:
 |#| Requirement  | Vulnerable regex example  | Bypass example |
 |---|---|---|---|
-|1|  Regexp should avoid using `^` (alternative: `\A`) and `$` (alternative: `\Z`) symbols, which are metacharacters for start and end of a string. It is possible to bypass regex by inserting any symbol in front or after regexp. | `(^a|a$)`  |   `%20a%20`
+|1|  Regexp should avoid using `^` (alternative: `\A`) and `$` (alternative: `\Z`) symbols, which are metacharacters for start and end of a string. It is possible to bypass regex by inserting any symbol in front or after regexp. | `(^a\|a$)`  |   `%20a%20`
 |2| Regexp should be case-insensitive: `(?i:` or `/regex/i`. It is possible to bypass regex using upper or lower cases in words. [Modsecurity transformation commands](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#cmdLine) (which are applied on string before regex pattern is applied) can also be included in tests to cover more regexps.  |  `http` | `hTtP`
 |3| In case modifier `/m` is not (globally) specified, regexp should avoid using dot `.` symbol, which means every symbol except newline (`\n`). It is possible to bypass regex using [newline injection](https://www.htbridge.com/blog/bypassing-bitrix-web-application-firewall-via-tiny-regexp-error.html).  |  `a.*b` | `a%0Ab`
 |4|  Regexp should not be vulnerable to ReDoS. [OWASP ReDoS article](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS) 1. Find various evil patterns.  2. Generate evil string using e.g. “SDL Regex Fuzzer”  |  `(a+)+`  |  `aaaaaaaaaaaaaaaaaaaa!`
@@ -16,11 +16,11 @@ Contribution is highly welcomed.
 |7| Regexp should only use plus “`+`” metacharacter in places where it is necessary, as it means “one or more”. Alternative metacharacter star “`*`”, which means “zero or more” is generally preferred. |  `a'\s+\d` | `a'5`
 |8| Usage of newline wildcards should be reasonable. `\r\n` characters can often be bypassed by either substitution, or by using newline alternative `\v`, `\f` and others. Wildcard `\b` has different meanings while using it in square brackets (“backspace”) and in plain regex (“word boundary”) - [RegexLib](http://regexlib.com/CheatSheet.aspx) | `a[^\n]*$`  | `a\n`? `a\r`?
 |9| Regexp should be applied to right scope of inputs: `Cookies names and values`, `Argument names and values`, `Header names and values`, `Files argument names and content`. Modsecurity: `grep -oP 'SecRule(.*?)"' -n` Other WAFs: manual observation. |  Argument values  | Cookie names and values
-|10| Regular expression writers should be careful while using only whitespace character (`%20`) as separators. Rule can be bypassed e.g. with newline character, tabulation, by skipping whitespace, or alternatives.  |  `a\s(not[whitespace]|and)\sb` | `a not b`
-|11| Nonstandard combinations of operators  |  `a||b` | `any_string`
-|12| Special cases: whitespaces before operators |  `(a |b)c` | `ac`
+|10| Regular expression writers should be careful while using only whitespace character (`%20`) as separators. Rule can be bypassed e.g. with newline character, tabulation, by skipping whitespace, or alternatives.  |  `a\s(not[whitespace]\|and)\sb` | `a not b`
+|11| Nonstandard combinations of operators  |  `a\|\|b` | `any_string`
+|12| Special cases: whitespaces before operators |  `(a \|b)c` | `ac`
 |13| Usage of wrong syntax in POSIX character classes |  `a[digit]b` | `aab`
-|14| Opposite usage of brackets [], () and {} | `[SYSTEM|PUBLIC]` or `(a-z123)` | `SYSTEM` or `abcdef`
+|14| Opposite usage of brackets [], () and {} | `[SYSTEM\|PUBLIC]` or `(a-z123)` | `SYSTEM` or `abcdef`
 
 ### Medium severity issues (non-expected behaviour: manual observation needed):
 |#| Requirement  | Vulnerable regex example  | Bypass example |
