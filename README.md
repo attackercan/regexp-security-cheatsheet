@@ -1,8 +1,14 @@
 # Regexp Security Cheatsheet
 
+---
+### Sponsored by [ScanFactory](https://scanfactory.io/) - platform that monitors external attack surface using 16 most trusted security scanners
+---
+
 Research was done to find "weak places" in regular expressions of Web Application Firewalls (WAFs).  
 Repository contains SAST, which can help you to find security vulnerabilities in custom regular expressions in own projects.  
 Contribution is highly welcomed.  
+This repo was first presented during BlackHat USA 2016 talk - [PDF](https://www.blackhat.com/docs/us-16/materials/us-16-Ivanov-Web-Application-Firewalls-Analysis-Of-Detection-Logic.pdf) 
+
 
 ### High severity issues:
 |#| Requirement  | Vulnerable regex example  | Bypass example |
